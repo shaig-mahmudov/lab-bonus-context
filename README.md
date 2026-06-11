@@ -107,6 +107,10 @@ by stuffing the fetch directly in there, read the situation again first.
 Build it in this order, smallest working thing first. You learned the context
 code in the lessons, your job is to apply it here.
 
+### 0. Fix AI styling mistakes
+
+Yep, the styles do not look friendly, you need to fix the colors a little bit to make it readable.
+
 ### 1. Create the user context and its provider
 
 Make a context for the user and a provider component that owns the state (who is
@@ -116,6 +120,8 @@ is where the fetch happens: it calls
 the user in state. This is the "context wrapper" the situation is talking about.
 Put it somewhere sensible, for example `app/context/UserContext.js` (the
 location is your call).
+
+
 
 ### 2. Wrap your whole app in the provider
 
