@@ -1,4 +1,4 @@
-# Lab: Hi, It's YOU!
+# BONUS Lab: Hi, It's YOU!
 
 <img src="./public/main.png" width=300 />
 
