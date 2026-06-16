@@ -2,30 +2,32 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useUser } from "../context/UserContext";
 
 export default function LoginPage() {
   const [id, setId] = useState("");
   const router = useRouter();
+  const { login, isLoading, error } = useUser();
 
   async function handleSubmit(e) {
     e.preventDefault();
 
-    // This is the whole point of the lab.
-    // Logging in should hand the ID to your user context, which fetches that
-    // user from the API and stores them in state. There is no context yet, so
-    // login() does not exist and this line throws. Building it is your job.
-    await login(id);
+    const didLogin = await login(id);
 
     // Once login actually works, send them back to the home page so the navbar
     // and the profile card can show who they are.
-    router.push("/");
+    if (didLogin) {
+      router.push("/");
+    }
   }
 
   return (
     <main className="mx-auto flex w-full max-w-sm flex-1 flex-col justify-center gap-6 px-6 py-16">
       <div className="flex flex-col gap-2">
-        <h1 className="text-2xl font-semibold tracking-tight">Log in</h1>
-        <p className="text-sm text-zinc-600">
+        <h1 className="text-2xl font-semibold tracking-tight text-slate-950">
+          Log in
+        </h1>
+        <p className="text-sm text-slate-600">
           Enter a user ID (try a number from 1 to 10) and we will pull up that
           account.
         </p>
@@ -40,16 +42,19 @@ export default function LoginPage() {
             value={id}
             onChange={(e) => setId(e.target.value)}
             placeholder="e.g. 1"
-            className="rounded-lg border border-zinc-300 bg-white px-3 py-2 text-base outline-none focus:border-zinc-900"
+            className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-base text-slate-950 outline-none focus:border-emerald-700"
             required
           />
         </label>
 
+        {error && <p className="text-sm font-medium text-red-700">{error}</p>}
+
         <button
           type="submit"
-          className="rounded-full bg-zinc-900 px-5 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-90"
+          disabled={isLoading}
+          className="rounded-full bg-emerald-700 px-5 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          Log in
+          {isLoading ? "Logging in..." : "Log in"}
         </button>
       </form>
     </main>
